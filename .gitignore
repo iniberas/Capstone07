@@ -98,5 +98,10 @@ InitTestScene*.unity*
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
-# Text editor
-.vscode/
+# Recovery Files
+**/_[Rr]ecovery/
+**/_[Rr]ecovery.meta
+
+# Additional text editor/IDE
+/.idea/
+/.vscode/
