@@ -8,6 +8,11 @@ public class GameModeManager : MonoBehaviour
     public GameObject vrPlayerRig;
     public GameObject desktopPlayerRig;
 
+    [Header("Exhibition UI")]
+    public GameObject vrUICanvas;
+    public GameObject desktopUICanvas;
+
+
     private void Start()
     {
         if (MainMenuManager.launchInVR)
@@ -15,7 +20,8 @@ public class GameModeManager : MonoBehaviour
             Debug.Log("VR Mode Selected");
             vrPlayerRig.SetActive(true);
             desktopPlayerRig.SetActive(false);
-            
+            vrUICanvas.SetActive(true);
+            desktopUICanvas.SetActive(false);
             StartCoroutine(StartXR());
         }
         else
@@ -23,6 +29,8 @@ public class GameModeManager : MonoBehaviour
             Debug.Log("Desktop Mode Selected");
             desktopPlayerRig.SetActive(true);
             vrPlayerRig.SetActive(false);
+            desktopUICanvas.SetActive(true);
+            vrUICanvas.SetActive(false);
         }
     }
 
