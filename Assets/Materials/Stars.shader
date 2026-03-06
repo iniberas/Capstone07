@@ -19,6 +19,10 @@ Shader "Custom/Skybox_Stars"
         _LayerScale ("Layer Scale", Range(0.0, 60.0)) = 20.0
         _LayerScaleStep ("Layer Scale Step", Range(0.0, 40.0)) = 10.0
         _LayersCount ("Layers Count", Range(0, 12)) = 3
+
+        [Header(Rotation)]
+        _RotationSpeed ("Rotation Speed", Float) = 0.5
+        _RotationAxis ("Rotation Axis (XYZ)", Vector) = (0, 1, 0, 0)
     }
 
     SubShader
@@ -57,6 +61,8 @@ Shader "Custom/Skybox_Stars"
             float _LayerScale;
             float _LayerScaleStep;
             int _LayersCount;
+            float _RotationSpeed;
+            float3 _RotationAxis;
 
             #define PI 3.14159265359
             #define TAU 6.28318530718
@@ -133,11 +139,26 @@ Shader "Custom/Skybox_Stars"
                 return float2(sqrt(res), id);
             }
 
+            float3 RotateAroundAxis(float3 v, float3 axis, float angle) {
+                axis = normalize(axis);
+                float s = sin(angle);
+                float c = cos(angle);
+                float oc = 1.0 - c;
+                
+                float3x3 rot = float3x3(
+                    oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,
+                    oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,
+                    oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c
+                );
+                return mul(rot, v);
+            }
+
             // Main fragment function (Replaces sky() in Godot)
             float4 frag (v2f i) : SV_Target
             {
                 // EYEDIR equivalent in Unity
                 float3 rayDir = normalize(i.texcoord); 
+                rayDir = RotateAroundAxis(rayDir, _RotationAxis, _Time.y * _RotationSpeed);
                 float3 col = _SkyColor;
                 
                 for (int j = 0; j < _LayersCount; j++) 

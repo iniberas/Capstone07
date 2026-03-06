@@ -1,24 +1,21 @@
 using UnityEngine;
+using System.Collections;
 
 public class CapstoneInfo : MonoBehaviour
 {
-    public GameObject objectInfo;
+    [SerializeField] private GameObject objectInfo;
 
-    void Start()
-    {
-        if (objectInfo != null)
-        {
+    private void Start() {
+        if (objectInfo != null) {
             objectInfo.SetActive(false);
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
+    private void OnTriggerEnter(Collider other) {
         objectInfo.SetActive(true);
     }
 
-    void OnTriggerExit(Collider other)
-    {
+    private void OnTriggerExit(Collider other) {
         objectInfo.SetActive(false);
     }
 }
