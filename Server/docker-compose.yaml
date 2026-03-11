@@ -1,0 +1,9 @@
+services:
+  asset_server:
+    image: nginx:1.29.5-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro,z
+      - ./app:/var/www/virtual_exhibition_webgl:ro,z
+      - ./assets:/var/www/virtual_exhibition_assets:ro,z
