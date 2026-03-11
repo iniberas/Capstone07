@@ -8,7 +8,7 @@ import imageio
 import argparse
 
 
-def process_video(video_path, parts, frames_per_part, fps, width):
+def process_video(video_path, parts, frames_per_part, fps, width, out_format):
     if not os.path.isfile(video_path):
         print(f"  [!] File '{video_path}' not found.")
         return
@@ -47,6 +47,10 @@ def process_video(video_path, parts, frames_per_part, fps, width):
             
             h, w, _ = frame.shape
             new_h = int(h * (width / w))
+            
+            if new_h % 2 != 0:
+                new_h += 1 
+                
             frame_resized = cv2.resize(frame, (width, new_h))
 
             frame_rgb = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
@@ -55,18 +59,25 @@ def process_video(video_path, parts, frames_per_part, fps, width):
     cap.release()
 
     base_name = os.path.splitext(video_path)[0]
-    out_name = f"{base_name}.gif"
+    out_name = f"{base_name}.{out_format}"
 
-    imageio.mimsave(out_name, extracted_frames, fps=fps, loop=0)
+    if out_format == 'gif':
+        imageio.mimsave(out_name, extracted_frames, fps=fps, loop=0)
+    elif out_format == 'webm':
+        imageio.mimsave(out_name, extracted_frames, fps=fps, codec='libvpx-vp9', macro_block_size=2)
+    elif out_format == 'mp4':
+        imageio.mimsave(out_name, extracted_frames, fps=fps, codec='libx264', macro_block_size=2)
+        
     print(f"  --> Successfully saved to {out_name}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert MP4 to a preview GIF by sampling different parts.")
+    parser = argparse.ArgumentParser(description="Convert MP4 to a preview clip by sampling different parts.")
     parser.add_argument('-p', '--parts', type=int, default=4, help="Number of parts to split the video into (default: 4).")
     parser.add_argument('-f', '--frames', type=int, default=5, help="Number of frames to extract per part (default: 5).")
-    parser.add_argument('-F', '--fps', type=int, default=10, help="Frames per second for the output GIF (default: 10).")
-    parser.add_argument('-w', '--width', type=int, default=480, help="Width of the output GIF to control file size (default: 480).")
+    parser.add_argument('-F', '--fps', type=int, default=10, help="Frames per second for the output (default: 10).")
+    parser.add_argument('-w', '--width', type=int, default=480, help="Width of the output to control file size (default: 480).")
+    parser.add_argument('-fmt', '--format', type=str, choices=['gif', 'mp4', 'webm'], default='webm', help="Output format: gif, mp4, or webm (default: webm).")
     parser.add_argument('files', nargs='*', help="Video files to process")
 
     args = parser.parse_args()
@@ -82,7 +93,7 @@ def main():
 
     for vf in video_files:
         print(f"Processing {vf}")
-        process_video(vf, args.parts, args.frames, args.fps, args.width)
+        process_video(vf, args.parts, args.frames, args.fps, args.width, args.format)
 
 
 if __name__ == "__main__":
