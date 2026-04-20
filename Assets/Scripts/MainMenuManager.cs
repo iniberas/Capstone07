@@ -7,11 +7,11 @@ public class MainMenuManager : MonoBehaviour
     public void PlayVR()
     {   
         launchInVR = true;
-        SceneManager.LoadScene("SpaceshipScene");
+        SceneManager.LoadScene("TriforceScene");
     }
     public void PlayDesktop()
     {
         launchInVR = false;
-        SceneManager.LoadScene("SpaceshipScene");
+        SceneManager.LoadScene("TriforceScene");
     }
 }
