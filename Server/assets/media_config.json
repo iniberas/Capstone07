@@ -1,0 +1,37 @@
+{
+  "mediaList": [
+    {
+      "id": "01",
+      "images": [
+        { "fileName": "godot.png", "desc": "Game engine jelek" },
+        { "fileName": "bebek.jpg", "desc": "Bebek bebek bebek" },
+        { "fileName": "firewatch.png", "desc": "Gem bagus" }
+      ],
+      "mainVideo": "nibras_anjay.mp4",
+      "videoDesc": "itu nibras sombong ceritanya",
+      "clipVideo": "cuplikan.webm"
+    },
+    {
+      "id": "02",
+      "images": [
+        { "fileName": "daun.jpg", "desc": "daun tomat?" },
+        { "fileName": "tulang.jpg", "desc": "tulang orang" },
+        { "fileName": "tulang_juga.jpg", "desc": "tulang orang juga" }
+      ],
+      "mainVideo": "iklan_meta.mp4",
+      "videoDesc": "gatau nemu di documents",
+      "clipVideo": "cuplikan.webm"
+    },
+    {
+      "id": "03",
+      "images": [
+        { "fileName": "om_botak.jpg", "desc": "licin" },
+        { "fileName": "tante.jpg", "desc": "hai tante" },
+        { "fileName": "om_ga_botak.jpg", "desc": "ga licin" }
+      ],
+      "mainVideo": "maling.mp4",
+      "videoDesc": "malinggggg!!!!",
+      "clipVideo": "cuplikan.webm"
+    }
+  ]
+}
