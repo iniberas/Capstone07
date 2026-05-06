@@ -64,7 +64,8 @@ def process_video(video_path, parts, frames_per_part, fps, width, out_format):
     if out_format == 'gif':
         imageio.mimsave(out_name, extracted_frames, fps=fps, loop=0)
     elif out_format == 'webm':
-        imageio.mimsave(out_name, extracted_frames, fps=fps, codec='libvpx-vp9', macro_block_size=2)
+        # imageio.mimsave(out_name, extracted_frames, fps=fps, codec='libvpx-vp9', macro_block_size=2)
+        imageio.mimsave(out_name, extracted_frames, fps=fps, codec='libvpx', macro_block_size=2)
     elif out_format == 'mp4':
         imageio.mimsave(out_name, extracted_frames, fps=fps, codec='libx264', macro_block_size=2)
         
