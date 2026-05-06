@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class TMPUnderlineToggle : MonoBehaviour
+public class ButtonHover : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
 
