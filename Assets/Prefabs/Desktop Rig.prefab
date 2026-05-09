@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 6373523622038769833}
   - component: {fileID: 7524956247096697964}
   - component: {fileID: 4057956842512098884}
+  - component: {fileID: 757234089982726069}
   m_Layer: 0
   m_Name: Desktop Rig
   m_TagString: Untagged
@@ -345,3 +346,22 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   playerCamera: {fileID: 2485397111830055692}
+--- !u!114 &757234089982726069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651068562009333871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df8c30833b31c149b847c780a513425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VRFootstepController
+  vrCamera: {fileID: 2485397111830055692}
+  footstepSource: {fileID: 0}
+  footstepClips: []
+  stepDistance: 1
+  audioOffset: {x: 0, y: 0, z: -0.3}
+  minPitch: 0.85
+  maxPitch: 1.15

@@ -1,23 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class ImageEntry {
-    public string fileName;
-    public string desc;
-}
-
 [Serializable]
-public class MediaEntry {
+public class MediaEntry 
+{
     public string id;
-    public ImageEntry[] images;
-    public string mainVideo;
-    public string videoDesc;
-    public string clipVideo;
-    public string[] desc;
+    public string title;
+    public string desc;
+    public string poster;
+    public string preview;
+    public string video;
 }
 
 [Serializable]
-public class MediaConfig {
+public class MediaConfig 
+{
     public List<MediaEntry> mediaList;
 }
