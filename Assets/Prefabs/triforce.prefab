@@ -2266,7 +2266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 634917274863750068, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
       propertyPath: m_Layer
-      value: 28
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 634917274863750068, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3498,6 +3498,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 1385243856673472713}
   doorClosing: {fileID: 1920371963667190208}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &588903354960355059 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2486311032053018707, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -3597,6 +3600,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 4471535369119591309}
   doorClosing: {fileID: 7408303536625304508}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &1318956890398806581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5124829729419723627, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -3674,6 +3680,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 8863328735504694239}
   doorClosing: {fileID: 4336850271715078127}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &1481882698886443126 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4738447922172436776, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -3852,6 +3861,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 4646994006095753297}
   doorClosing: {fileID: 3897501209572454899}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &2398937182343258845 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8365526027461538691, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -3902,6 +3914,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 1811182789343120552}
   doorClosing: {fileID: 4304406237240403126}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &2769162940225586656 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8303764928196007102, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -3942,6 +3957,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 7822712650230434584}
   doorClosing: {fileID: 3335289348793543305}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &2884355057507968743 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -192066446367918151, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4009,6 +4027,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 8611641499362507467}
   doorClosing: {fileID: 2637467394748015953}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &3206687524908416050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -445121471354933908, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4054,6 +4075,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 3444080873444757254}
   doorClosing: {fileID: 3303662080022055}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &3283189812775456185 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -521618708385014553, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4094,6 +4118,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 5130595909600171222}
   doorClosing: {fileID: 1828860122220491124}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &3335289348793543305 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -352478358613689385, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4181,6 +4208,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 7342810482681098729}
   doorClosing: {fileID: 7753996058344824590}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &3793384594844947498 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2164505179422538380, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4317,6 +4347,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 3555920104972966689}
   doorClosing: {fileID: 3793384594844947498}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &4318719968692220686 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7979747278969889360, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4384,6 +4417,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 5636656193609693973}
   doorClosing: {fileID: 1585840489284980308}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &4336850271715078127 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1622004599688200527, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4594,6 +4630,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 695019150332488983}
   doorClosing: {fileID: 1349353884354360336}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!4 &5969613992624633525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4671,6 +4710,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 3717887255125277263}
   doorClosing: {fileID: 3206687524908416050}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &6301175894046475289 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9070061469461129913, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4770,6 +4812,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 1481882698886443126}
   doorClosing: {fileID: 5292621747887793082}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &6539916736275092991 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1121570777853183137, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -4891,6 +4936,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 6003631625451304877}
   doorClosing: {fileID: 4898853495389561153}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &7342810482681098729 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5713930981324201801, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -5086,6 +5134,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 9133647892779551429}
   doorClosing: {fileID: 1800974920535482286}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &8445634203433368779 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2334560872579607957, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}
@@ -5158,6 +5209,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipDoor
   doorMesh: {fileID: 6362028406661417545}
   doorClosing: {fileID: 2398937182343258845}
+  audioClip: {fileID: 0}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!1 &8863328735504694239 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5885584900380284287, guid: bdd8acd107b84db44a3ffcc73dd681bb, type: 3}

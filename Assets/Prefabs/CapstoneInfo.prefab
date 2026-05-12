@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9099830261055600162}
   - component: {fileID: 8292645624890648257}
   - component: {fileID: 623488093053754910}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: PauseResume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 8051446225715284281}
   - component: {fileID: 2968724492988614608}
   - component: {fileID: 359149352030095177}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: PosterCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 3397243121725731640}
   - component: {fileID: 5793688458702969555}
   - component: {fileID: 8939797936182732370}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: TitleCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 6963455132727746059}
   - component: {fileID: 7142802457518227677}
   - component: {fileID: 7542059227094379841}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: PauseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 3267458343263629405}
   - component: {fileID: 8212657433400126407}
   - component: {fileID: 2278459172364169366}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 1275948272424767868}
   - component: {fileID: 5637024778760219752}
   - component: {fileID: 3584431853377712061}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: FowrwardIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -802,7 +802,7 @@ GameObject:
   - component: {fileID: 7738482607356037425}
   - component: {fileID: 987552055161201699}
   - component: {fileID: 7663824210422506680}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: DescriptionCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 4099270511996202138}
   - component: {fileID: 783930224196933881}
   - component: {fileID: 680633399427208560}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: ResumeIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1015,7 +1015,7 @@ GameObject:
   - component: {fileID: 3958602868207083144}
   - component: {fileID: 2403208159475314891}
   - component: {fileID: 3704213022639339038}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1108,7 +1108,7 @@ GameObject:
   - component: {fileID: 1778845042036489731}
   - component: {fileID: 454086466927671484}
   - component: {fileID: 766255992938657042}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: PauseIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1239,7 +1239,7 @@ GameObject:
   - component: {fileID: 7454992591459543523}
   - component: {fileID: 8948431307254182265}
   - component: {fileID: 5514056095607570464}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1388,7 +1388,7 @@ GameObject:
   - component: {fileID: 5350674072534935629}
   - component: {fileID: 4159794589999013911}
   - component: {fileID: 1924759330882259314}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: PosterCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1490,7 +1490,7 @@ GameObject:
   - component: {fileID: 6202469018447786892}
   - component: {fileID: 6219509817602530031}
   - component: {fileID: 4709706391779875062}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: DescriptionCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1592,7 +1592,7 @@ GameObject:
   - component: {fileID: 7605794325856635541}
   - component: {fileID: 7413508140092278715}
   - component: {fileID: 2836157784303919431}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1754,7 +1754,7 @@ GameObject:
   - component: {fileID: 1889612699715667246}
   - component: {fileID: 706575747313395399}
   - component: {fileID: 6478977693295294980}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: ResumeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1947,7 +1947,7 @@ GameObject:
   - component: {fileID: 5990321293594082452}
   - component: {fileID: 1294868810891675322}
   - component: {fileID: 8338533494260246647}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: BackwardIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2044,7 +2044,7 @@ GameObject:
   - component: {fileID: 8218177321314880658}
   - component: {fileID: 8029623319612526271}
   - component: {fileID: 8167814416605090250}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: TitleCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2246,7 +2246,7 @@ GameObject:
   - component: {fileID: 6255817820009327838}
   - component: {fileID: 3051099913921606023}
   - component: {fileID: 1189540976582481893}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: ForwardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2442,7 +2442,7 @@ GameObject:
   - component: {fileID: 2833570281496167630}
   - component: {fileID: 5025720668138544141}
   - component: {fileID: 5599844809057669347}
-  m_Layer: 5
+  m_Layer: 27
   m_Name: BackwardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2632,7 +2632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1028160721100640157}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2664,9 +2664,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7652522886427237381}
     m_Modifications:
+    - target: {fileID: 1217935073648552211, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
+      propertyPath: m_Layer
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729318936836673529, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
+      propertyPath: m_Layer
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1937819460624080868, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
+      propertyPath: m_Layer
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4214441107021584627, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
+      propertyPath: m_Layer
+      value: 27
+      objectReference: {fileID: 0}
     - target: {fileID: 5456475157257766867, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
       propertyPath: m_Name
       value: Holoboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456475157257766867, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
+      propertyPath: m_Layer
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 5988230643163294013, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2707,6 +2727,10 @@ PrefabInstance:
     - target: {fileID: 5988230643163294013, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9167689897700443144, guid: 2576d1906e59b0942a2a90abc96b437a, type: 3}
+      propertyPath: m_Layer
+      value: 27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2784,6 +2808,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 90d3268fb52273c4a99ec47a0e3e63ef, type: 3}
       propertyPath: m_Name
       value: papanvideo
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 90d3268fb52273c4a99ec47a0e3e63ef, type: 3}
+      propertyPath: m_Layer
+      value: 27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
