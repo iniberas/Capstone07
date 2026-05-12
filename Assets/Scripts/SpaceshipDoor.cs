@@ -21,6 +21,7 @@ public class SpaceshipDoor : MonoBehaviour
         pos.y = 0;
         doorClosing.transform.localPosition = pos;
         audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.priority = 64;
     }
 
     private void OnTriggerEnter(Collider other) {
