@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capstone Hub Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo">Capstone Hub Dashboard</div>
+      <div class="nav-divider"></div>
+    </nav>
+
+    <div class="content-area">
+      <div class="panel sidebar">
+        <div class="panel-header">
+          <span class="panel-title">Capstone Registry</span>
+          <span class="panel-badge" id="sidebar-count">0 / 33</span>
+        </div>
+        <div class="panel-body" id="capstone-list"></div>
+      </div>
+
+      <div class="panel main-panel">
+        <div class="panel-header" id="main-header">
+          <span class="panel-title" id="main-panel-title"
+            >Capstone Media Editor</span
+          >
+        </div>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">◎</div>
+          <div class="empty-text">SELECT A CAPSTONE<br />FROM THE REGISTRY</div>
+        </div>
+
+        <form
+          id="upload-form"
+          class="form-area"
+          style="display: none"
+          autocomplete="off"
+        >
+          <input type="hidden" id="capstone_id" name="capstone_id" />
+
+          <div
+            style="
+              margin-bottom: 1rem;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div class="form-heading" id="form-title">Capstone 00</div>
+            <div
+              class="like-count-badge"
+              id="like-badge-container"
+              style="display: inline-flex"
+            >
+              <span class="material-symbols-outlined">favorite</span>
+              <span id="like-count">0</span>
+            </div>
+          </div>
+
+          <div class="section-label">Core Information</div>
+
+          <div class="form-group">
+            <label class="form-label" for="title">Capstone Title</label>
+            <input
+              class="sk-input"
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Enter capstone title…"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="desc">Description</label>
+            <textarea
+              class="sk-textarea"
+              id="desc"
+              name="desc"
+              placeholder="Enter description…"
+            ></textarea>
+          </div>
+
+          <div class="section-label">Media Assets</div>
+
+          <div class="media-grid">
+            <div class="media-card">
+              <div class="media-type-label">
+                <span class="material-symbols-outlined">image</span> Poster
+              </div>
+              <div class="file-zone">
+                <input type="file" id="poster" name="poster" accept="image/*" />
+                <div class="file-zone-icon">
+                  <span class="material-symbols-outlined">upload</span>
+                </div>
+                <div class="file-zone-text">Upload Image</div>
+              </div>
+              <div class="media-preview-wrap" id="prev-wrap-poster">
+                <img id="prev-img-poster" src="" alt="Poster preview" />
+                <div class="media-preview-filename">
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span id="curr-poster"></span>
+                </div>
+              </div>
+            </div>
+            <div class="media-card">
+              <div class="media-type-label">
+                <span class="material-symbols-outlined">movie</span> Main Video
+              </div>
+              <div class="file-zone">
+                <input type="file" id="video" name="video" accept="video/*" />
+                <div class="file-zone-icon">
+                  <span class="material-symbols-outlined">upload</span>
+                </div>
+                <div class="file-zone-text">Upload Video</div>
+              </div>
+              <div class="media-preview-wrap" id="prev-wrap-video">
+                <video
+                  id="prev-vid-video"
+                  src=""
+                  controls
+                  preload="metadata"
+                ></video>
+                <div class="media-preview-filename">
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span id="curr-video"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="submit-bar" id="submit-bar" style="display: none">
+          <p class="status-msg idle" id="status-msg"></p>
+          <button
+            type="button"
+            class="sk-btn sk-btn-primary"
+            id="submit-btn"
+            onclick="handleSubmit()"
+          >
+            Save &amp; Upload
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "/api";
+      let existingData = {};
+      let currentId = null;
+
+      async function init() {
+        await fetchExistingCapstones();
+        renderSidebar();
+      }
+
+      async function fetchExistingCapstones() {
+        try {
+          const res = await fetch(`${API_BASE}/capstones`);
+          const json = await res.json();
+          if (json.status === "success") {
+            json.data.forEach((capstone) => {
+              existingData[capstone.id] = capstone;
+            });
+          }
+        } catch (e) {
+          console.error("Fetch error:", e);
+        }
+      }
+
+      function renderSidebar() {
+        const list = document.getElementById("capstone-list");
+        list.innerHTML = "";
+        let filled = 0;
+
+        for (let i = 1; i <= 33; i++) {
+          const data = existingData[i];
+          const has = !!data;
+          if (has) filled++;
+          const label = has && data.title ? data.title : "Untitled";
+          const num = String(i).padStart(2, "0");
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className =
+            "capstone-btn" +
+            (has ? " has-data" : "") +
+            (currentId === i ? " active" : "");
+          btn.onclick = () => selectCapstone(i);
+          btn.innerHTML = `
+                <span class="capstone-num">${num}</span>
+                <div class="capstone-info">
+                    <div class="capstone-title">${label}</div>
+                    <div class="capstone-subtitle">${has ? "Data linked" : "No data"}</div>
+                </div>
+                <div class="capstone-indicator ${has ? "on" : ""}"></div>
+            `;
+          list.appendChild(btn);
+        }
+
+        document.getElementById("sidebar-count").textContent = `${filled} / 33`;
+      }
+
+      function selectCapstone(id, isAfterSave = false) {
+        currentId = id;
+        const data = existingData[id] || {};
+        const num = String(id).padStart(2, "0");
+        console.log(data);
+
+        document.getElementById("empty-state").style.display = "none";
+        document.getElementById("upload-form").style.display = "block";
+        document.getElementById("submit-bar").style.display = "flex";
+
+        document.getElementById("main-panel-title").textContent =
+          `${num} — Capstone Media Editor`;
+        document.getElementById("form-title").textContent = `Capstone ${num}`;
+        document.getElementById("capstone_id").value = id;
+        document.getElementById("title").value = data.title || "";
+        document.getElementById("desc").value = data.desc || "";
+
+        const likeBadge = document.getElementById("like-badge-container");
+        document.getElementById("like-count").textContent = data.total_likes || 0;
+
+        ["poster", "video"].forEach(
+          (k) => (document.getElementById(k).value = ""),
+        );
+
+        const toAssetUrl = (p) => (p ? "/" + p : null);
+
+        // poster
+        const posterUrl = toAssetUrl(data.poster);
+        const posterWrap = document.getElementById("prev-wrap-poster");
+        if (posterUrl) {
+          document.getElementById("prev-img-poster").src = posterUrl;
+          document.getElementById("curr-poster").textContent =
+            posterUrl.replace("assets/", "");
+          posterWrap.classList.add("visible");
+        } else {
+          document.getElementById("prev-img-poster").src = "";
+          document.getElementById("curr-poster").textContent = "";
+          posterWrap.classList.remove("visible");
+        }
+
+        // video
+        const videoUrl = toAssetUrl(data.video);
+        const videoWrap = document.getElementById("prev-wrap-video");
+        if (videoUrl) {
+          document.getElementById("prev-vid-video").src = videoUrl;
+          document.getElementById("curr-video").textContent = videoUrl.replace(
+            "assets/",
+            "",
+          );
+          videoWrap.classList.add("visible");
+        } else {
+          document.getElementById("prev-vid-video").src = "";
+          document.getElementById("curr-video").textContent = "";
+          videoWrap.classList.remove("visible");
+        }
+
+        if (!isAfterSave) {
+          setStatus("idle", "");
+        }
+
+        renderSidebar();
+      }
+
+      function setStatus(type, msg) {
+        const el = document.getElementById("status-msg");
+        el.className = "status-msg " + type;
+        el.textContent = msg;
+      }
+
+      async function handleSubmit() {
+        const id = document.getElementById("capstone_id").value;
+        if (!id) return;
+
+        const btn = document.getElementById("submit-btn");
+        btn.disabled = true;
+        setStatus("loading", "Uploading…");
+
+        const form = document.getElementById("upload-form");
+        const formData = new FormData(form);
+        formData.delete("capstone_id");
+        if (!document.getElementById("poster").files.length)
+          formData.delete("poster");
+        if (!document.getElementById("video").files.length)
+          formData.delete("video");
+
+        try {
+          const res = await fetch(`${API_BASE}/capstones/${id}`, {
+            method: "PUT",
+            body: formData,
+          });
+          const result = await res.json();
+
+          if (result.status === "success") {
+            setStatus("success", "Saved successfully");
+            await fetchExistingCapstones();
+            renderSidebar();
+
+            selectCapstone(parseInt(id), true);
+
+            setTimeout(() => {
+              const el = document.getElementById("status-msg");
+              if (el.classList.contains("success")) {
+                setStatus("idle", "");
+              }
+            }, 3000);
+          } else {
+            throw new Error(result.detail || "Save failed");
+          }
+        } catch (e) {
+          console.error(e);
+          setStatus("error", "Upload failed — please retry");
+        } finally {
+          btn.disabled = false;
+        }
+      }
+
+      // local preview
+      document.getElementById("poster").addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        document.getElementById("prev-img-poster").src = url;
+        document.getElementById("curr-poster").textContent = file.name;
+        document.getElementById("prev-wrap-poster").classList.add("visible");
+      });
+      document.getElementById("video").addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        document.getElementById("prev-vid-video").src = url;
+        document.getElementById("curr-video").textContent = file.name;
+        document.getElementById("prev-wrap-video").classList.add("visible");
+      });
+
+      init();
+    </script>
+  </body>
+</html>
