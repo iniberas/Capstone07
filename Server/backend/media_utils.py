@@ -128,13 +128,13 @@ def process_full_video_to_webm(file_path: str, target_width: int = 1280) -> str:
         "-vf",
         f"scale={target_width}:-2",
         "-c:v",
-        "libvpx-vp9",
+        "libvpx",
         "-crf",
         "30",
         "-b:v",
-        "0",
+        "1M",
         "-c:a",
-        "libopus",
+        "libvorbis",
         new_path,
     ]
 
