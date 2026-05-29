@@ -1,4 +1,8 @@
 services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
   asset_server:
     build:
       context: ./nginx
@@ -20,3 +24,13 @@ services:
       - ./assets:/app/assets:z
       - ./db:/app/db:z
       - ./backend:/app:z
+  worker:
+    build: ./backend
+    command: celery -A worker.app worker --loglevel=info
+    volumes:
+      - ./assets:/app/assets:z
+      - ./db:/app/db:z
+      - ./backend:/app:z
+    depends_on:
+      - redis
+      - api

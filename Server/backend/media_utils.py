@@ -6,6 +6,7 @@ import imageio
 from database import SessionLocal
 from models import CapstoneModel
 from PIL import Image, ImageOps
+from worker import app
 
 
 def process_image_to_jpeg(file_path: str, target_width: int = 720) -> str:
@@ -150,6 +151,7 @@ def process_full_video_to_webm(file_path: str, target_width: int = 1280) -> str:
     return file_path
 
 
+@app.task(name="process_media")
 def background_media_pipeline(
     capstone_id: int, process_poster: bool, process_video: bool
 ):

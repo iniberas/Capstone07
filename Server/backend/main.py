@@ -2,7 +2,6 @@ import os
 
 from database import Base, engine, get_db
 from fastapi import (
-    BackgroundTasks,
     Depends,
     FastAPI,
     File,
@@ -42,7 +41,6 @@ def get_object(capstone_id: int, db: Session = Depends(get_db)):
 @app.put("/capstones/{capstone_id}")
 async def update_object(
     capstone_id: int,
-    background_tasks: BackgroundTasks,
     title: str = Form(None),
     desc: str = Form(None),
     poster: UploadFile = File(None),
@@ -84,8 +82,7 @@ async def update_object(
     db.commit()
     db.refresh(db_caps)
 
-    background_tasks.add_task(
-        background_media_pipeline,
+    background_media_pipeline.delay(
         capstone_id=db_caps.id,
         process_poster=bool(poster),
         process_video=bool(video),
@@ -93,7 +90,7 @@ async def update_object(
 
     return {
         "status": "success",
-        "message": f"Object {capstone_id} updated. Background tasks started.",
+        "message": f"Object {capstone_id} updated. Background tasks added to queue.",
         "data": {
             "title": db_caps.title,
             "poster_path": db_caps.poster,
