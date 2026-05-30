@@ -39,7 +39,7 @@ public class CapstoneInfo : MonoBehaviour
     [SerializeField] private GameObject boardAndInfo;
     [SerializeField] private TextMeshProUGUI titleTMP;
     [SerializeField] private TextMeshProUGUI descTMP;
-
+    [SerializeField] private Image likeIconImage;
     [Header("Trigger Things")]
     [SerializeField] private float closedY = -2f;
     [SerializeField] private float openedY = 0f;
@@ -53,7 +53,7 @@ public class CapstoneInfo : MonoBehaviour
     private CapstoneData _data; 
     private RenderTexture uniqueRenderTexture;
     private bool isPlayerClose = false;
-
+    private bool isLiked = false;
     void Start()
     {
         uniqueRenderTexture = new RenderTexture(1920, 1080, 16);
@@ -279,8 +279,9 @@ public class CapstoneInfo : MonoBehaviour
 #endif
     }
 
-    public void ToggleLike(string guestId)
+    public void ToggleLike()
     {
+        string guestId = GuestSessionManager.GetGuestId();
         StartCoroutine(SendLikeRequest(guestId));
     }
 
@@ -301,6 +302,13 @@ public class CapstoneInfo : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Like status toggled successfully: " + request.downloadHandler.text);
+                isLiked = !isLiked;
+                if (isLiked) {
+                    likeIconImage.color = Color.red; 
+                }
+                else{
+                    likeIconImage.color = Color.black; 
+                }
             }
             else
             {
