@@ -107,3 +107,5 @@ InitTestScene*.unity*
 # Additional text editor/IDE
 /.idea/
 /.vscode/
+
+Server/app/
