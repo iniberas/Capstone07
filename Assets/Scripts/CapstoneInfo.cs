@@ -40,6 +40,7 @@ public class CapstoneInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleTMP;
     [SerializeField] private TextMeshProUGUI descTMP;
     [SerializeField] private Image likeIconImage;
+    
     [Header("Trigger Things")]
     [SerializeField] private float closedY = -2f;
     [SerializeField] private float openedY = 0f;
@@ -54,6 +55,8 @@ public class CapstoneInfo : MonoBehaviour
     private RenderTexture uniqueRenderTexture;
     private bool isPlayerClose = false;
     private bool isLiked = false;
+    private string PlayerPrefsLikeKey => $"isLiked_{mediaId}";
+
     void Start()
     {
         uniqueRenderTexture = new RenderTexture(1920, 1080, 16);
@@ -72,7 +75,18 @@ public class CapstoneInfo : MonoBehaviour
         previewPlayer.playOnAwake = false;
         fullPlayer.playOnAwake = false;
 
+        isLiked = PlayerPrefs.GetInt(PlayerPrefsLikeKey, 0) == 1;
+        UpdateLikeUI();
+
         StartCoroutine(FetchDataFromAPI());
+    }
+
+    private void UpdateLikeUI()
+    {
+        if (likeIconImage != null)
+        {
+            likeIconImage.color = isLiked ? Color.red : Color.black;
+        }
     }
 
     IEnumerator FetchDataFromAPI()
@@ -302,13 +316,13 @@ public class CapstoneInfo : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Like status toggled successfully: " + request.downloadHandler.text);
+                
                 isLiked = !isLiked;
-                if (isLiked) {
-                    likeIconImage.color = Color.red; 
-                }
-                else{
-                    likeIconImage.color = Color.black; 
-                }
+                
+                PlayerPrefs.SetInt(PlayerPrefsLikeKey, isLiked ? 1 : 0);
+                PlayerPrefs.Save();
+                
+                UpdateLikeUI();
             }
             else
             {
