@@ -58,6 +58,8 @@ public class CapstoneInfo : MonoBehaviour
     private string PlayerPrefsLikeKey => $"isLiked_{mediaId}";
 
     private bool hallwayActive;
+    private bool dataLoaded;
+    private bool dataLoading;
 
     void Start()
     {
@@ -101,6 +103,7 @@ public class CapstoneInfo : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
+                dataLoading = false;
                 Debug.LogError($"[API Error] Failed to fetch data for ID {mediaId}: " + request.error);
             }
             else
@@ -112,9 +115,12 @@ public class CapstoneInfo : MonoBehaviour
                 {
                     _data = response.data;
                     SetupMedia();
+                    dataLoaded = true;
+                    dataLoading = false;
                 }
                 else
                 {
+                    dataLoading = false;
                     Debug.LogError($"Media data not found or JSON parsing failed for ID: {mediaId}");
                 }
             }
@@ -144,7 +150,8 @@ public class CapstoneInfo : MonoBehaviour
         previewPlayer.isLooping = true;
         fullPlayer.isLooping = true;
 
-        StartCoroutine(ManageVideoLoadingPriority());
+        if (hallwayActive)
+            StartCoroutine(ManageVideoLoadingPriority());
     }
 
     IEnumerator ManageVideoLoadingPriority()
@@ -158,6 +165,8 @@ public class CapstoneInfo : MonoBehaviour
 
         if (!isPlayerClose)
         {
+            if (!hallwayActive)
+                yield break;
             SetPreviewMode();
             if (!string.IsNullOrEmpty(fullPlayer.url)) fullPlayer.Prepare();
         }
@@ -219,6 +228,9 @@ public class CapstoneInfo : MonoBehaviour
         while (!previewPlayer.isPrepared)
             yield return null;
 
+        if (!hallwayActive)
+            yield break;
+
         if (!isPlayerClose)
         {
             previewPlayer.targetTexture = uniqueRenderTexture;
@@ -252,6 +264,9 @@ public class CapstoneInfo : MonoBehaviour
 
         while (!fullPlayer.isPrepared)
             yield return null;
+        
+        if (!hallwayActive)
+            yield break;
 
         if (isPlayerClose)
         {
@@ -263,7 +278,7 @@ public class CapstoneInfo : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
-        
+
         isPlayerClose = true;
 
         objectBoard.transform.DOLocalMoveY(openedY, 0.5f).SetEase(Ease.InOutCubic);
@@ -275,6 +290,8 @@ public class CapstoneInfo : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+
         objectBoard.transform.DOLocalMoveY(closedY, 0.5f).SetEase(Ease.InOutCubic);
         objectInfo.transform.DOKill();
         objectInfo.transform.DOScale(Vector3.zero, 0.5f)
@@ -294,9 +311,14 @@ public class CapstoneInfo : MonoBehaviour
             return;
 
         hallwayActive = true;
-        StartCoroutine(FetchDataFromAPI());
 
-        if (_data != null) {
+        if (!dataLoaded && !dataLoading)
+        {
+            dataLoading = true;
+            StartCoroutine(FetchDataFromAPI());
+        }
+        else if (dataLoaded)
+        {
             StartCoroutine(ManageVideoLoadingPriority());
         }
     }

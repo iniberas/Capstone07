@@ -31,13 +31,14 @@ public class HallwayTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player"))
-            return;
-
-        foreach (var capstone in capstones)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            if (capstone != null)
-                capstone.DeactivatePreview();
+            foreach (var capstone in capstones)
+            {
+                if (capstone != null) {
+                    capstone.DeactivatePreview();
+                }
+            }
         }
     }
 }
