@@ -66,7 +66,10 @@ async def update_object(
 
     async def save_file(file: UploadFile, file_type: str, old_path: str) -> str:
         remove_old_file(old_path)
-        file_location = f"assets/{file_type}_{capstone_id}_{file.filename}"
+        
+        safe_filename = file.filename.replace(" ", "_")
+        file_location = f"assets/{file_type}_{capstone_id}_{safe_filename}"
+        
         with open(file_location, "wb+") as file_object:
             file_object.write(await file.read())
         return file_location

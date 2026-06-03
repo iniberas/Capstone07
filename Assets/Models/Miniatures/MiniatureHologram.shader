@@ -5,7 +5,7 @@ Shader "Custom/MiniatureHologram" {
         _FColor("Fresnel Color", Color) = (1, 1, 1, 1)
         _Scale("Alpha Tiling", Range(0, 5.0)) = 1
         _ScrollSpeed("Alpha Speed", Range(0.01, 2.0)) = 0.1
-        _FresnelInt("Fresnel Intensity", Range(0, 4)) = 0.5
+        _FresnelInt("Fresnel Intensity", Range(0, 10)) = 0.5
         _FresnelPow("Fresnel Power", Range(1, 5)) = 1
     }
 

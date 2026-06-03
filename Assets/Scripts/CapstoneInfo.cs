@@ -40,7 +40,7 @@ public class CapstoneInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleTMP;
     [SerializeField] private TextMeshProUGUI descTMP;
     [SerializeField] private Image likeIconImage;
-    
+
     [Header("Trigger Things")]
     [SerializeField] private float closedY = -2f;
     [SerializeField] private float openedY = 0f;
@@ -50,12 +50,14 @@ public class CapstoneInfo : MonoBehaviour
     [Header("Media Control Things")]
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject resumeButton;
-    
-    private CapstoneData _data; 
+
+    private CapstoneData _data;
     private RenderTexture uniqueRenderTexture;
     private bool isPlayerClose = false;
     private bool isLiked = false;
     private string PlayerPrefsLikeKey => $"isLiked_{mediaId}";
+
+    private bool hallwayActive;
 
     void Start()
     {
@@ -78,7 +80,7 @@ public class CapstoneInfo : MonoBehaviour
         isLiked = PlayerPrefs.GetInt(PlayerPrefsLikeKey, 0) == 1;
         UpdateLikeUI();
 
-        StartCoroutine(FetchDataFromAPI());
+        // StartCoroutine(FetchDataFromAPI());
     }
 
     private void UpdateLikeUI()
@@ -91,8 +93,8 @@ public class CapstoneInfo : MonoBehaviour
 
     IEnumerator FetchDataFromAPI()
     {
-        string url = GetBaseUrl() + "api/capstones/" + mediaId; 
-        
+        string url = GetBaseUrl() + "api/capstones/" + mediaId;
+
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             yield return request.SendWebRequest();
@@ -128,10 +130,10 @@ public class CapstoneInfo : MonoBehaviour
 
         if (!string.IsNullOrEmpty(_data.preview))
             previewPlayer.url = baseUrl + _data.preview;
-            
+
         if (!string.IsNullOrEmpty(_data.video))
             fullPlayer.url = baseUrl + _data.video;
-        
+
         if (!string.IsNullOrEmpty(_data.poster))
         {
             string posterUrl = baseUrl + _data.poster;
@@ -182,7 +184,7 @@ public class CapstoneInfo : MonoBehaviour
             {
                 Debug.LogError($"Failed to load image from {imageUrl}: {request.error}");
             }
-            else 
+            else
             {
                 Texture2D texture = DownloadHandlerTexture.GetContent(request);
                 posterImage.texture = texture;
@@ -260,6 +262,8 @@ public class CapstoneInfo : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+        
         isPlayerClose = true;
 
         objectBoard.transform.DOLocalMoveY(openedY, 0.5f).SetEase(Ease.InOutCubic);
@@ -278,14 +282,42 @@ public class CapstoneInfo : MonoBehaviour
             .OnComplete(() =>
             {
                 isPlayerClose = false;
-                if (_data != null) SetPreviewMode();
+
+                if (hallwayActive && _data != null)
+                    SetPreviewMode();
             });
+    }
+
+    public void ActivatePreview()
+    {
+        if (hallwayActive)
+            return;
+
+        hallwayActive = true;
+        StartCoroutine(FetchDataFromAPI());
+
+        if (_data != null) {
+            StartCoroutine(ManageVideoLoadingPriority());
+        }
+    }
+
+    public void DeactivatePreview()
+    {
+        hallwayActive = false;
+
+        previewPlayer.Pause();
+        previewPlayer.targetTexture = null;
+
+        fullPlayer.Pause();
+        fullPlayer.targetTexture = null;
+
+        boardAndInfo.SetActive(false);
     }
 
     string GetBaseUrl()
     {
 #if UNITY_EDITOR
-        return "http://localhost:8080/"; 
+        return "http://localhost:8080/";
 #else
         string url = Application.absoluteURL;
         if (string.IsNullOrEmpty(url)) return "http://localhost:8080/";
@@ -316,12 +348,12 @@ public class CapstoneInfo : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Like status toggled successfully: " + request.downloadHandler.text);
-                
+
                 isLiked = !isLiked;
-                
+
                 PlayerPrefs.SetInt(PlayerPrefsLikeKey, isLiked ? 1 : 0);
                 PlayerPrefs.Save();
-                
+
                 UpdateLikeUI();
             }
             else
