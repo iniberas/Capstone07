@@ -22,7 +22,6 @@ public class HallwayTrigger : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("CapstoneInfo"))
         {
             var capstone = other.GetComponent<CapstoneInfo>();
-            Debug.Log(other.name);
             if (capstone != null && !capstones.Contains(capstone)) {
                 capstones.Add(capstone);
             }
