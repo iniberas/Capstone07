@@ -25,6 +25,10 @@ public class DesktopMovement : MonoBehaviour
 
     void Awake()
     {
+        // kalo di browser jadi sensitive bgt, eh gatau sih gw doang apa enggak
+#if UNITY_WEBGL && !UNITY_EDITOR
+        lookSensitivity /= 1.5f;
+#endif
         controller = GetComponent<CharacterController>();
     }
     

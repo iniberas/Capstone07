@@ -18,7 +18,7 @@ Shader "Custom/MiniatureHologram" {
 
         Blend SrcAlpha One
         ZWrite On
-        Cull Off
+        Cull Back
 
         Pass {
             HLSLPROGRAM#include "HLSLSupport.cginc"
