@@ -8,12 +8,14 @@ public class DesktopMovement : MonoBehaviour
     [Header("Settings")]
     public float gravity = -10f;
     public float walkSpeed = 3f;
+    public float sprintSpeed = 6f;
     public float lookSensitivity = 0.2f;
     public InputAction moveAction;
     public InputAction lookAction;
     public InputAction lockCursorAction;
     public InputAction unlockCursorAction;
     public InputAction interactAction;
+    public InputAction sprintAction;
     
     [Header("References")]
     public Transform playerCamera;
@@ -25,7 +27,6 @@ public class DesktopMovement : MonoBehaviour
 
     void Awake()
     {
-        // kalo di browser jadi sensitive bgt, eh gatau sih gw doang apa enggak
 #if UNITY_WEBGL && !UNITY_EDITOR
         lookSensitivity /= 1.5f;
 #endif
@@ -34,7 +35,7 @@ public class DesktopMovement : MonoBehaviour
     
     void Start()
     {
-        UnlockCursor();
+        LockCursor();
     }
     
     void OnEnable()
@@ -44,6 +45,7 @@ public class DesktopMovement : MonoBehaviour
         lockCursorAction.Enable();
         unlockCursorAction.Enable();
         interactAction.Enable();
+        sprintAction.Enable();
     }
     
     void OnDisable()
@@ -53,6 +55,7 @@ public class DesktopMovement : MonoBehaviour
         lockCursorAction.Disable();
         unlockCursorAction.Disable();
         interactAction.Disable();
+        sprintAction.Disable();
     }
     
     void Update()
@@ -116,7 +119,10 @@ public class DesktopMovement : MonoBehaviour
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-        controller.Move(move * walkSpeed * Time.deltaTime);
+        
+        float currentSpeed = sprintAction.IsPressed() ? sprintSpeed : walkSpeed;
+        
+        controller.Move(move * currentSpeed * Time.deltaTime);
     }
 
     void HandleHoverUI()
