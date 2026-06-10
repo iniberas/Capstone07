@@ -35,7 +35,7 @@ public class DesktopMovement : MonoBehaviour
     
     void Start()
     {
-        LockCursor();
+        UnlockCursor();
     }
     
     void OnEnable()
