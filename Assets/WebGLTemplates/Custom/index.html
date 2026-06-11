@@ -4,10 +4,14 @@
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-  <title>CapstoneHub</title>
+  <title>{{{ PRODUCT_NAME }}}</title>
 
   <link rel="icon" type="image/x-icon" href="/icon.png">
 
+#if SHOW_DIAGNOSTICS
+  <link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>">
+  <script src="<<<TemplateData/diagnostics.js>>>"></script>
+#endif
 
   <style>
     html,
@@ -88,6 +92,11 @@
       }
     }
 
+#if SHOW_DIAGNOSTICS
+    #unity-footer {
+      display: none;
+    }
+#endif
   </style>
 </head>
 
@@ -104,8 +113,13 @@
 
   </div>
 
+#if SHOW_DIAGNOSTICS
+  <div id="unity-footer">
+    <img id="diagnostics-icon" src="TemplateData/webmemd-icon.png">
+  </div>
+#endif
 
-  <script src="Build/app.loader.js"></script>
+  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
 
   <script>
 
@@ -124,18 +138,26 @@
 
     const config = {
       arguments: [],
-      dataUrl: "Build/app.data.gz",
-      frameworkUrl: "Build/app.framework.js.gz",
+      dataUrl: "Build/{{{ DATA_FILENAME }}}",
+      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
 
+#if USE_THREADS
+      workerUrl: "Build/{{{ WORKER_FILENAME }}}",
+#endif
 
-      codeUrl: "Build/app.wasm.gz",
+#if USE_WASM
+      codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#endif
 
+#if SYMBOLS_FILENAME
+      symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
 
       streamingAssetsUrl: "StreamingAssets",
 
-      companyName: "Group 07",
-      productName: "CapstoneHub",
-      productVersion: "0.0.1"
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}}
     };
 
     createUnityInstance(
@@ -150,6 +172,13 @@
 
         loadingContainer.style.display = "none";
 
+#if SHOW_DIAGNOSTICS
+        document.getElementById("diagnostics-icon").onclick = () => {
+          unityDiagnostics.openDiagnosticsDiv(
+            unityInstance.GetMetricsInfo
+          );
+        };
+#endif
 
       })
       .catch((message) => {
