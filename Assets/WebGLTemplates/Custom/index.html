@@ -8,6 +8,10 @@
 
   <link rel="icon" type="image/x-icon" href="/icon.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 #if SHOW_DIAGNOSTICS
   <link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>">
   <script src="<<<TemplateData/diagnostics.js>>>"></script>
@@ -37,14 +41,14 @@
       max-width: calc(100vh * (960 / 600));
       max-height: calc(100vw * (600 / 960));
 
-      background-color: #231f20;
+      background-color: #000000;
     }
 
     #unity-canvas {
       width: 100%;
       height: 100%;
       display: block;
-      background-color: #231f20;
+      background-color: #000000;
     }
 
     #loading-container {
@@ -56,7 +60,7 @@
       justify-content: center;
       align-items: center;
 
-      background-color: #231f20;
+      background-color: #000000;
 
       color: white;
       font-family: sans-serif;
@@ -81,6 +85,17 @@
     #loading-text {
       font-size: 3vmin;
       font-weight: bold;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    #mobile-message {
+      display: none;
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      font-size: 4vmin;
+      padding: 20px;
+      line-height: 1.5;
     }
 
     @keyframes spin {
@@ -113,6 +128,10 @@
 
   </div>
 
+  <div id="mobile-message">
+    Not supported on mobile.<br>Please open this on a desktop.
+  </div>
+
 #if SHOW_DIAGNOSTICS
   <div id="unity-footer">
     <img id="diagnostics-icon" src="TemplateData/webmemd-icon.png">
@@ -122,68 +141,80 @@
   <script src="Build/{{{ LOADER_FILENAME }}}"></script>
 
   <script>
-
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      const meta = document.createElement("meta");
-      meta.name = "viewport";
-      meta.content =
-        "width=device-width,height=device-height,initial-scale=1.0,user-scalable=no,shrink-to-fit=yes";
-
-      document.head.appendChild(meta);
-    }
-
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const gameContainer = document.getElementById("game-container");
+    const mobileMessage = document.getElementById("mobile-message");
     const canvas = document.querySelector("#unity-canvas");
     const loadingContainer = document.getElementById("loading-container");
     const loadingText = document.getElementById("loading-text");
 
-    const config = {
-      arguments: [],
-      dataUrl: "Build/{{{ DATA_FILENAME }}}",
-      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+    if (isMobile) {
+      // Jika HP, atur viewport untuk skala teks, sembunyikan game, tampilkan pesan
+      const meta = document.createElement("meta");
+      meta.name = "viewport";
+      meta.content =
+        "width=device-width,height=device-height,initial-scale=1.0,user-scalable=no,shrink-to-fit=yes";
+      document.head.appendChild(meta);
+
+      gameContainer.style.display = "none";
+      mobileMessage.style.display = "block";
+
+#if SHOW_DIAGNOSTICS
+      const diagnosticsFooter = document.getElementById("unity-footer");
+      if (diagnosticsFooter) diagnosticsFooter.style.display = "none";
+#endif
+
+    } else {
+      // Jika Desktop, muat Unity WebGL
+      const config = {
+        arguments: [],
+        dataUrl: "Build/{{{ DATA_FILENAME }}}",
+        frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
 
 #if USE_THREADS
-      workerUrl: "Build/{{{ WORKER_FILENAME }}}",
+        workerUrl: "Build/{{{ WORKER_FILENAME }}}",
 #endif
 
 #if USE_WASM
-      codeUrl: "Build/{{{ CODE_FILENAME }}}",
+        codeUrl: "Build/{{{ CODE_FILENAME }}}",
 #endif
 
 #if SYMBOLS_FILENAME
-      symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+        symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
 #endif
 
-      streamingAssetsUrl: "StreamingAssets",
+        streamingAssetsUrl: "StreamingAssets",
 
-      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
-      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
-      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}}
-    };
+        companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}}
+      };
 
-    createUnityInstance(
-      canvas,
-      config,
-      (progress) => {
-        loadingText.textContent =
-          "Loading " + Math.round(progress * 100) + "%";
-      }
-    )
-      .then((unityInstance) => {
+      createUnityInstance(
+        canvas,
+        config,
+        (progress) => {
+          loadingText.textContent =
+            "Loading " + Math.round(progress * 100) + "%";
+        }
+      )
+        .then((unityInstance) => {
 
-        loadingContainer.style.display = "none";
+          loadingContainer.style.display = "none";
 
 #if SHOW_DIAGNOSTICS
-        document.getElementById("diagnostics-icon").onclick = () => {
-          unityDiagnostics.openDiagnosticsDiv(
-            unityInstance.GetMetricsInfo
-          );
-        };
+          document.getElementById("diagnostics-icon").onclick = () => {
+            unityDiagnostics.openDiagnosticsDiv(
+              unityInstance.GetMetricsInfo
+            );
+          };
 #endif
 
-      })
-      .catch((message) => {
-        alert(message);
-      });
+        })
+        .catch((message) => {
+          alert(message);
+        });
+    }
 
   </script>
 
