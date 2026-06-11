@@ -183,7 +183,7 @@ public class DesktopMovement : MonoBehaviour
             
             ExecuteEvents.ExecuteHierarchy(clickedObject, pointerData, ExecuteEvents.pointerClickHandler);
             
-            Debug.Log($"Clicked on: {clickedObject.name}");
+            // Debug.Log($"Clicked on: {clickedObject.name}");
         }
     }
 }
