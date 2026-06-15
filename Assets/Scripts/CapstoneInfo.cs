@@ -36,6 +36,8 @@ public class CapstoneInfo : MonoBehaviour
     [Header("UI & Materials")]
     [SerializeField] private Renderer screenRenderer;
     [SerializeField] private RawImage posterImage;
+    [SerializeField] private GameObject loadingPosterObject;
+    [SerializeField] private GameObject posterObject;
     [SerializeField] private GameObject boardAndInfo;
     [SerializeField] private TextMeshProUGUI titleTMP;
     [SerializeField] private TextMeshProUGUI descTMP;
@@ -50,6 +52,7 @@ public class CapstoneInfo : MonoBehaviour
     [Header("Media Control Things")]
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject resumeButton;
+    [SerializeField] private GameObject loadingIndicator;
 
     private CapstoneData _data;
     private RenderTexture uniqueRenderTexture;
@@ -62,6 +65,10 @@ public class CapstoneInfo : MonoBehaviour
     private bool dataLoading;
     private bool userPaused;
     private double pausedTime;
+
+    private double _lastTime;
+    private float _stalledTimer;
+    private const float StalledThreshold = 0.5f; // detik
 
     void Start()
     {
@@ -86,6 +93,26 @@ public class CapstoneInfo : MonoBehaviour
         UpdateLikeUI();
 
         // StartCoroutine(FetchDataFromAPI());
+    }
+
+    void Update()
+    {
+        if (!isPlayerClose || !fullPlayer.isPlaying || userPaused) return;
+
+        if (fullPlayer.time == _lastTime)
+        {
+            _stalledTimer += Time.deltaTime;
+            if (_stalledTimer >= StalledThreshold) {
+                loadingIndicator.SetActive(true);
+            }
+        }
+        else
+        {
+            _stalledTimer = 0f;
+            loadingIndicator.SetActive(false);
+        }
+
+        _lastTime = fullPlayer.time;
     }
 
     private void UpdateLikeUI()
@@ -146,7 +173,10 @@ public class CapstoneInfo : MonoBehaviour
         if (!string.IsNullOrEmpty(_data.poster))
         {
             string posterUrl = baseUrl + _data.poster;
-            Debug.Log("Loading poster from: " + posterUrl);
+            posterImage.texture = null; // clear dulu tekstur lama
+
+            loadingPosterObject.SetActive(true);
+            posterObject.SetActive(false);
             StartCoroutine(LoadImageFromURL(posterUrl));
         }
 
@@ -192,12 +222,16 @@ public class CapstoneInfo : MonoBehaviour
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
         {
             yield return request.SendWebRequest();
-            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || 
+                request.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError($"Failed to load image from {imageUrl}: {request.error}");
             }
-            else
+            else if (request.result == UnityWebRequest.Result.Success)
             {
+                loadingPosterObject.SetActive(false);
+                posterObject.SetActive(true);
                 Texture2D texture = DownloadHandlerTexture.GetContent(request);
                 posterImage.texture = texture;
             }
@@ -243,28 +277,23 @@ public class CapstoneInfo : MonoBehaviour
 
     public void SetFullVideoMode()
     {
-        if (_data == null || string.IsNullOrEmpty(fullPlayer.url))
-            return;
+        if (_data == null || string.IsNullOrEmpty(fullPlayer.url)) return;
 
         previewPlayer.Pause();
         previewPlayer.targetTexture = null;
-
         boardAndInfo.SetActive(true);
 
         if (fullPlayer.isPrepared)
         {
+            loadingIndicator.SetActive(false);
             fullPlayer.targetTexture = uniqueRenderTexture;
-
-            if (!userPaused) {
-                fullPlayer.Play();
-            } else {
-                StartCoroutine(PauseNextFrame());
-            }
-
+            if (!userPaused) fullPlayer.Play();
+            else StartCoroutine(PauseNextFrame());
             UpdatePlaybackButtons();
         }
         else
         {
+            loadingIndicator.SetActive(true);
             StartCoroutine(WaitAndSetFullVideo());
         }
     }
@@ -284,22 +313,17 @@ public class CapstoneInfo : MonoBehaviour
 
     IEnumerator WaitAndSetFullVideo()
     {
-        if (!fullPlayer.isPrepared)
-            fullPlayer.Prepare();
+        if (!fullPlayer.isPrepared) fullPlayer.Prepare();
+        while (!fullPlayer.isPrepared) yield return null;
 
-        while (!fullPlayer.isPrepared)
-            yield return null;
+        loadingIndicator.SetActive(false); // hide pas udah siap
 
-        if (!hallwayActive)
-            yield break;
+        if (!hallwayActive) yield break;
 
         if (isPlayerClose)
         {
             fullPlayer.targetTexture = uniqueRenderTexture;
-
-            if (!userPaused)
-                fullPlayer.Play();
-
+            if (!userPaused) fullPlayer.Play();
             UpdatePlaybackButtons();
         }
     }
