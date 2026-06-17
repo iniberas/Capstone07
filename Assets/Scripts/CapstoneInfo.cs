@@ -53,6 +53,7 @@ public class CapstoneInfo : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject resumeButton;
     [SerializeField] private GameObject loadingIndicator;
+    [SerializeField] private GameObject previewLoadingIndicator;
 
     private CapstoneData _data;
     private RenderTexture uniqueRenderTexture;
@@ -68,7 +69,10 @@ public class CapstoneInfo : MonoBehaviour
 
     private double _lastTime;
     private float _stalledTimer;
-    private const float StalledThreshold = 0.5f; // detik
+    private const float StalledThreshold = 0.5f;
+
+    private double _lastPreviewTime;
+    private float _previewStalledTimer;
 
     void Start()
     {
@@ -97,22 +101,37 @@ public class CapstoneInfo : MonoBehaviour
 
     void Update()
     {
-        if (!isPlayerClose || !fullPlayer.isPlaying || userPaused) return;
-
-        if (fullPlayer.time == _lastTime)
+        if (isPlayerClose && fullPlayer.isPlaying && !userPaused)
         {
-            _stalledTimer += Time.deltaTime;
-            if (_stalledTimer >= StalledThreshold) {
-                loadingIndicator.SetActive(true);
+            if (fullPlayer.time == _lastTime)
+            {
+                _stalledTimer += Time.deltaTime;
+                if (_stalledTimer >= StalledThreshold)
+                    loadingIndicator.SetActive(true);
             }
-        }
-        else
-        {
-            _stalledTimer = 0f;
-            loadingIndicator.SetActive(false);
+            else
+            {
+                _stalledTimer = 0f;
+                loadingIndicator.SetActive(false);
+            }
+            _lastTime = fullPlayer.time;
         }
 
-        _lastTime = fullPlayer.time;
+        if (!isPlayerClose && previewPlayer.isPlaying)
+        {
+            if (previewPlayer.time == _lastPreviewTime)
+            {
+                _previewStalledTimer += Time.deltaTime;
+                if (_previewStalledTimer >= StalledThreshold)
+                    previewLoadingIndicator.SetActive(true);
+            }
+            else
+            {
+                _previewStalledTimer = 0f;
+                previewLoadingIndicator.SetActive(false);
+            }
+            _lastPreviewTime = previewPlayer.time;
+        }
     }
 
     private void UpdateLikeUI()
@@ -173,7 +192,7 @@ public class CapstoneInfo : MonoBehaviour
         if (!string.IsNullOrEmpty(_data.poster))
         {
             string posterUrl = baseUrl + _data.poster;
-            posterImage.texture = null; // clear dulu tekstur lama
+            posterImage.texture = null;
 
             loadingPosterObject.SetActive(true);
             posterObject.SetActive(false);
@@ -248,11 +267,13 @@ public class CapstoneInfo : MonoBehaviour
 
         if (previewPlayer.isPrepared)
         {
+            previewLoadingIndicator.SetActive(false);
             previewPlayer.targetTexture = uniqueRenderTexture;
             previewPlayer.Play();
         }
         else
         {
+            previewLoadingIndicator.SetActive(true);
             StartCoroutine(WaitAndSetPreviewVideo());
         }
     }
@@ -264,6 +285,8 @@ public class CapstoneInfo : MonoBehaviour
 
         while (!previewPlayer.isPrepared)
             yield return null;
+
+        previewLoadingIndicator.SetActive(false);
 
         if (!hallwayActive)
             yield break;
@@ -281,6 +304,7 @@ public class CapstoneInfo : MonoBehaviour
 
         previewPlayer.Pause();
         previewPlayer.targetTexture = null;
+        previewLoadingIndicator.SetActive(false);
         boardAndInfo.SetActive(true);
 
         if (fullPlayer.isPrepared)
@@ -298,13 +322,11 @@ public class CapstoneInfo : MonoBehaviour
         }
     }
 
-    // anu ini helper gaje banget plis tolonnggggg
     IEnumerator PauseNextFrame() {
         float originalVolume = fullPlayer.GetDirectAudioVolume(0);
         fullPlayer.SetDirectAudioVolume(0, 0f);
         fullPlayer.time = pausedTime;
         fullPlayer.Play();
-        // 2 frame supaya aman kali
         yield return null;
         yield return null;
         fullPlayer.SetDirectAudioVolume(0, originalVolume);
@@ -316,7 +338,7 @@ public class CapstoneInfo : MonoBehaviour
         if (!fullPlayer.isPrepared) fullPlayer.Prepare();
         while (!fullPlayer.isPrepared) yield return null;
 
-        loadingIndicator.SetActive(false); // hide pas udah siap
+        loadingIndicator.SetActive(false);
 
         if (!hallwayActive) yield break;
 
@@ -382,6 +404,7 @@ public class CapstoneInfo : MonoBehaviour
 
         previewPlayer.Pause();
         previewPlayer.targetTexture = null;
+        previewLoadingIndicator.SetActive(false);
 
         fullPlayer.Pause();
         fullPlayer.targetTexture = null;

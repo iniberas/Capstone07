@@ -3376,6 +3376,7 @@ MonoBehaviour:
   pauseButton: {fileID: 2147208394704363345}
   resumeButton: {fileID: 8033294486000990359}
   loadingIndicator: {fileID: 5642221573233849702}
+  previewLoadingIndicator: {fileID: 5642221573233849702}
 --- !u!1 &8728384401767291660
 GameObject:
   m_ObjectHideFlags: 0
