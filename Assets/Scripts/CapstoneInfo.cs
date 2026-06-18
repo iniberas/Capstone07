@@ -386,6 +386,7 @@ public class CapstoneInfo : MonoBehaviour
             return;
 
         hallwayActive = true;
+        previewLoadingIndicator.SetActive(true);
 
         if (!dataLoaded && !dataLoading)
         {
